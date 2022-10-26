@@ -1,0 +1,30 @@
+{
+    "slides": [
+        {
+            "imagePath": "./images/angry-cat-one.jpg",
+            "imageText": "Angry cat",
+            "imageCaption": "Cat Tomas"
+        },
+        {
+            "imagePath": "./images/angry-cat-two.jpg",
+            "imageText": "Angry cat",
+            "imageCaption": "Cat Angel"
+        },
+        {
+            "imagePath": "./images/angry-cat-three.jpg",
+            "imageText": "Angry cat",
+            "imageCaption": "Cat Boris"
+        },
+        {
+            "imagePath": "./images/angry-cat-four.jpg",
+            "imageText": "Angry cat",
+            "imageCaption": "Cat Bob"
+        },
+        {
+            "imagePath": "./images/angry-cat-five.jpg",
+            "imageText": "Angry cat",
+            "imageCaption": "Cat Paris"
+        }
+    ]
+}
+

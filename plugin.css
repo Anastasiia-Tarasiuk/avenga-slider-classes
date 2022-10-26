@@ -1,0 +1,142 @@
+/* reset */
+ul,
+p,
+button {
+    padding: 0;
+    margin: 0;
+}
+
+/* variables */
+:root {
+    --color: white;
+    --accent-color: black;
+
+    --cubic: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration: 250ms;
+}
+
+/* styles */
+.slide-list {
+    position: absolute;
+    display: inline-block;
+    padding: 14px;
+    width: auto;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.prev-icon,
+.next-icon {
+    border: 1px solid var(--accent-color);
+    border-radius: 50%;
+    fill: var(--color);
+    transition: fill var(--duration) var(--cubic);
+}
+
+.prev-icon:hover,
+.prev-icon:focus,
+.next-icon:hover,
+.next-icon:focus {
+    fill: var(--accent-color);
+    background-color: var(--color);
+}
+
+.prev,
+.next {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    border: 0;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color var(--duration) var(--cubic);
+}
+
+.prev {
+    transform: translateY(-50%) rotate(180deg);
+    left: 2%;
+}
+
+.next {
+    right: 2%;
+}
+
+.slide-item {
+    display: none;
+}
+
+.image-container {
+    position: relative;
+}
+
+.slide-image {
+    display: block;
+    max-height: 90vh;
+    max-width: 90vw;
+}
+
+.slide-number,
+.slide-caption {
+    position: absolute;
+    font-size: 24px;
+    color: var(--accent-color);
+}
+
+.slide-caption {
+    bottom: 3%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    z-index: 2;
+}
+
+.slide-number {
+    top: 3%;
+    left: 5%;
+}
+
+.dots-container {
+    position: absolute;
+    transform: translate(-50%, 0) rotate(-90deg);
+    bottom: 0;
+    left: 50%;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    background-color: var(--color);
+    border: 1px solid var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color var(--duration) var(--cubic);
+}
+
+.dot:hover,
+.dot:focus {
+    background-color: var(--accent-color);
+}
+
+.is-active-slide {
+    display: block;
+}
+
+.add-dot-bg-color {
+    background: var(--accent-color);
+}
+
+.animation {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: 0.4};
+    to {opacity: 1};
+}
