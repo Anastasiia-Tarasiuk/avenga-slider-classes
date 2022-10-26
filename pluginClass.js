@@ -1,17 +1,21 @@
 export class Plugin {
-    // #mainContainer;
+    #mainContainer;
+    #globalIndex;
+    #dotEls;
+    #dotsContainer;
+    #slidesArray;
+    #slideNumberEls;
 
     constructor({ sliderContainerClass = ".container", slides = [], isDotsContainerShown = true }) {
         this.sliderContainerClass = sliderContainerClass;
         this.slides = slides;
         this.isDotsContainerShown = isDotsContainerShown;
-        this.mainContainer = document.querySelector(this.sliderContainerClass);
-        this.globalIndex = 0;
-        this.dotEls = null;
-        this.dotsContainer = null;
-        this.slidesArray = null;
-        this.slideNumberEls = null; 
-        this.dotsContainer = null;
+        this.#mainContainer = document.querySelector(this.sliderContainerClass);
+        this.#globalIndex = 0;
+        this.#dotEls = null;
+        this.#dotsContainer = null;
+        this.#slidesArray = null;
+        this.#slideNumberEls = null; 
 
         this.renderSides(); 
     }
@@ -49,7 +53,7 @@ export class Plugin {
         
         slideItem.appendChild(imageContainer);
 
-        this.mainContainer.appendChild(slidesList);
+        this.#mainContainer.appendChild(slidesList);
     }
     
     renderSides() {
@@ -58,16 +62,16 @@ export class Plugin {
                 this.createSlide(i);
             }
 
-            this.slidesArray = [...document.querySelectorAll(".slide-item")];
-            this.slideNumberEls = document.querySelectorAll(".slide-number");
-            this.slidesArray[this.globalIndex].classList.add("is-active-slide"); 
+            this.#slidesArray = [...document.querySelectorAll(".slide-item")];
+            this.#slideNumberEls = document.querySelectorAll(".slide-number");
+            this.#slidesArray[this.#globalIndex].classList.add("is-active-slide"); 
         }
  
         this.prepareControls();
 
         if (this.isDotsContainerShown && this.slides.length > 0) {
-            this.renderDots(this.slidesArray);
-            this.dotEls[this.globalIndex].classList.add("add-dot-bg-color");
+            this.renderDots(this.#slidesArray);
+            this.#dotEls[this.#globalIndex].classList.add("add-dot-bg-color");
         }
 
         this.changeSliderNumbers();
@@ -81,10 +85,10 @@ export class Plugin {
 
         // renders dots container according to default options
         if (this.isDotsContainerShown) {
-            this.dotsContainer = document.createElement("div");  
-            this.dotsContainer.classList.add("dots-container");
-            this.mainContainer.appendChild(this.dotsContainer);
-            this.dotsContainer.addEventListener("click", this.onDotClick.bind(this));
+            this.#dotsContainer = document.createElement("div");  
+            this.#dotsContainer.classList.add("dots-container");
+            this.#mainContainer.appendChild(this.#dotsContainer);
+            this.#dotsContainer.addEventListener("click", this.onDotClick.bind(this));
         }
 
         nextButton.classList.add("next");
@@ -104,8 +108,8 @@ export class Plugin {
                     d="M0 256C0 397.4 114.6 512 256 512s256-114.6 256-256S397.4 0 256 0S0 114.6 0 256zM297 385c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l71-71L120 280c-13.3 0-24-10.7-24-24s10.7-24 24-24l214.1 0-71-71c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L409 239c9.4 9.4 9.4 24.6 0 33.9L297 385z" />
             </svg>`
 
-        this.mainContainer.appendChild(nextButton);
-        this.mainContainer.appendChild(prevButton);
+        this.#mainContainer.appendChild(nextButton);
+        this.#mainContainer.appendChild(prevButton);
 
         nextButton.addEventListener("click", this.onButtonClick.bind(this));
         prevButton.addEventListener("click", this.onButtonClick.bind(this));
@@ -116,8 +120,8 @@ export class Plugin {
 
     moveSlides(prevIndex) {
         if (this.slides.length > 0) {
-            this.slidesArray[this.globalIndex].classList.add("is-active-slide");
-            this.slidesArray[prevIndex].classList.remove("is-active-slide");
+            this.#slidesArray[this.#globalIndex].classList.add("is-active-slide");
+            this.#slidesArray[prevIndex].classList.remove("is-active-slide");
         }
     }
 
@@ -128,38 +132,38 @@ export class Plugin {
             document.querySelector(".dots-container").appendChild(dot);
         })
 
-        this.dotEls = document.querySelectorAll(".dot");
+        this.#dotEls = document.querySelectorAll(".dot");
     }
 
     changeSliderNumbers() {
         // sets content only if slide exist
         if (this.slides.length > 0) {
-            this.slideNumberEls[this.globalIndex].textContent = `${1 + this.globalIndex}/${this.slides.length}`;
+            this.#slideNumberEls[this.#globalIndex].textContent = `${1 + this.#globalIndex}/${this.slides.length}`;
         }
     }
 
     changeDotColor(prevIndex) {
-        this.dotEls = document.querySelectorAll(".dot");
+        this.#dotEls = document.querySelectorAll(".dot");
         if (this.slides.length > 0) {
-            this.dotEls[prevIndex].classList.remove("add-dot-bg-color");
-            this.dotEls[this.globalIndex].classList.add("add-dot-bg-color");
+            this.#dotEls[prevIndex].classList.remove("add-dot-bg-color");
+            this.#dotEls[this.#globalIndex].classList.add("add-dot-bg-color");
         }
     }
 
     onButtonClick(e) {
         const directionAttributeValue = JSON.parse(e.currentTarget.getAttribute("data-direction"));
         let nextStep = directionAttributeValue ? 1 : -1;
-        let prevIndex = this.globalIndex;
+        let prevIndex = this.#globalIndex;
         
-        this.globalIndex = this.globalIndex + nextStep;
+        this.#globalIndex = this.#globalIndex + nextStep;
         
         // checks if globalIndex stays in possible range
-        if (this.globalIndex > (this.slides.length - 1)) {
-            this.globalIndex = 0;
+        if (this.#globalIndex > (this.slides.length - 1)) {
+            this.#globalIndex = 0;
         }
         
-        if (this.globalIndex < 0) {
-            this.globalIndex = this.slides.length - 1;
+        if (this.#globalIndex < 0) {
+            this.#globalIndex = this.slides.length - 1;
         }
 
         this.moveSlides(prevIndex);
@@ -171,12 +175,12 @@ export class Plugin {
     onDotClick(e) {
         const chosenDot = e.target;
         const indexOfChosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
-        const current = this.slidesArray[this.globalIndex];
-        let next = this.slidesArray[indexOfChosenDot];
+        const current = this.#slidesArray[this.#globalIndex];
+        let next = this.#slidesArray[indexOfChosenDot];
         
-        this.dotEls[this.globalIndex].classList.remove("add-dot-bg-color");
+        this.#dotEls[this.#globalIndex].classList.remove("add-dot-bg-color");
         
-        this.globalIndex = indexOfChosenDot;
+        this.#globalIndex = indexOfChosenDot;
         
         //doesn't allow switch classes by click on the same dot
         if (current !== next) {
@@ -184,7 +188,7 @@ export class Plugin {
             current.classList.remove("is-active-slide");
         }
         
-        this.dotEls[this.globalIndex].classList.add("add-dot-bg-color");
+        this.#dotEls[this.#globalIndex].classList.add("add-dot-bg-color");
         this.changeSliderNumbers();
     }
 
